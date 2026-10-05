@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LAURA BOUTIQUE | Haute Couture</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { DEFAULT: '#D4AF37', hover: '#C5A028', muted: '#aa882244' },
+                        dark: { bg: '#050505', surface: '#0f0f0f', border: '#1f1f1f' }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', '"Amiri"', 'serif'],
+                        cinzel: ['Cinzel', '"Amiri"', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    animation: { 'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
+                    keyframes: { fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #f0f0f0; -webkit-tap-highlight-color: transparent; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .category-tab { position: relative; transition: color 0.3s ease; white-space: nowrap; }
+        .category-tab::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px; background-color: #D4AF37; transition: width 0.3s ease; }
+        html[dir="rtl"] .category-tab::after { left: auto; right: 0; }
+        .category-tab.active { color: #D4AF37; }
+        .category-tab.active::after { width: 100%; }
+        
+        .glass-panel { background: rgba(12, 12, 12, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+        
+        html[lang="ar"] .font-serif, html[lang="ku"] .font-serif { font-size: 1.15em; line-height: 1.6; }
+        html[lang="ar"] .uppercase, html[lang="ku"] .uppercase { letter-spacing: 0 !important; font-weight: 500; }
+        
+        input[type="text"], input[type="tel"], textarea { font-size: 16px !important; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <div class="bg-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-400 py-3 text-center border-b border-dark-border" data-i18n="promo">
+        Complimentary Worldwide Shipping on All Orders Over $500
+    </div>
+
+    <header class="sticky top-0 z-40 bg-dark-bg/90 backdrop-blur-xl border-b border-dark-border transition-all">
+        <div class="max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex justify-between items-center h-20 sm:h-24">
+                
+                <div class="w-1/3 flex items-center justify-start">
+                    <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl text-zinc-300 hover:text-gold transition-colors">
+                        <i class="ph ph-list"></i>
+                    </button>
+                    <nav class="hidden lg:flex items-center space-x-8 rtl:space-x-reverse text-xs uppercase tracking-[0.25em] text-zinc-400">
+                        <a href="#collection" class="hover:text-white transition-colors" data-i18n="nav_catalog">Catalog</a>
+                        <a href="#about" class="hover:text-white transition-colors" data-i18n="nav_maison">Maison</a>
+                        
+                        <div class="relative group border-l border-dark-border pl-6 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-6">
+                            <button class="flex items-center hover:text-white transition-colors gap-1">
+                                <i class="ph ph-globe text-lg"></i> <span id="current-lang-display">EN</span>
+                            </button>
+                            <div class="absolute top-full left-0 rtl:left-auto rtl:right-0 mt-4 w-32 bg-dark-surface border border-dark-border rounded shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform translate-y-2 group-hover:translate-y-0 p-2 flex flex-col space-y-1 z-50">
+                                <button onclick="setLang('en')" class="text-left rtl:text-right px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white/5 hover:text-gold rounded transition-colors">English</button>
+                                <button onclick="setLang('ar')" class="text-left rtl:text-right px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white/5 hover:text-gold rounded transition-colors">العربية</button>
+                                <button onclick="setLang('ku')" class="text-left rtl:text-right px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-white/5 hover:text-gold rounded transition-colors">کوردی</button>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="w-1/3 flex justify-center items-center">
+                    <a href="#" class="flex items-center justify-center group">
+                        <img src="517143646_17842456443536105_8217253692259783694_n.jpg" alt="Laura Boutique" 
+                             class="h-12 sm:h-16 lg:h-20 w-auto object-contain rounded-md shadow-[0_0_15px_rgba(212,175,55,0.08)] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.25)] transition-all duration-500">
+                    </a>
+                </div>
+
+                <div class="w-1/3 flex items-center justify-end space-x-4 sm:space-x-6 text-zinc-300">
+                    <a href="https://www.instagram.com/llaura.boutique/" target="_blank" class="hidden sm:flex hover:text-gold transition-colors items-center">
+                        <i class="ph ph-instagram-logo text-2xl"></i>
+                    </a>
+                    <button onclick="toggleCart()" class="relative hover:text-gold transition-colors flex items-center group p-2 sm:p-0">
+                        <i class="ph ph-handbag text-2xl sm:text-[26px] group-hover:scale-110 transition-transform"></i>
+                        <span id="cart-badge" class="absolute top-0 right-0 sm:-top-1 sm:-right-2 rtl:right-auto rtl:left-0 sm:rtl:-left-2 bg-gold text-black text-[10px] font-bold h-4 w-4 sm:h-5 sm:w-5 rounded-full flex items-center justify-center shadow-lg">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-dark-bg/95 backdrop-blur-2xl transform -translate-y-full transition-transform duration-500 flex flex-col">
+        <div class="flex justify-between items-center p-6 border-b border-dark-border">
+            <img src="517143646_17842456443536105_8217253692259783694_n.jpg" class="h-10 rounded">
+            <button onclick="toggleMobileMenu()" class="text-2xl text-zinc-400 hover:text-white"><i class="ph ph-x"></i></button>
+        </div>
+        <div class="flex flex-col p-8 space-y-8 text-center text-sm uppercase tracking-widest text-zinc-300">
+            <a href="#collection" onclick="toggleMobileMenu()" class="hover:text-gold" data-i18n="nav_catalog">Catalog</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold" data-i18n="nav_maison">Maison</a>
+            <a href="https://www.instagram.com/llaura.boutique/" class="hover:text-gold flex items-center justify-center gap-2"><i class="ph ph-instagram-logo text-xl"></i> Instagram</a>
+            
+            <div class="pt-8 border-t border-dark-border flex justify-center gap-6">
+                <button onclick="setLang('en'); toggleMobileMenu()" class="hover:text-gold">EN</button>
+                <button onclick="setLang('ar'); toggleMobileMenu()" class="hover:text-gold">AR</button>
+                <button onclick="setLang('ku'); toggleMobileMenu()" class="hover:text-gold">KU</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="relative h-[75vh] lg:h-[85vh] w-full flex items-center justify-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=2600" alt="Hero Banner" class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105 animate-[zoomOut_20s_ease-out_infinite_alternate]">
+        <div class="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-bg/80 via-transparent to-transparent"></div>
+
+        <div class="relative z-10 text-center px-4 w-full opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+            <span class="text-gold text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.4em] block mb-4 sm:mb-6" data-i18n="hero_sub">Fall / Winter Collection</span>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-white font-light tracking-wide leading-[1.2] mb-8 sm:mb-10">
+                <span data-i18n="hero_main_1">Refinement in</span> <br class="hidden sm:block">
+                <span class="italic font-normal text-gold" data-i18n="hero_main_2">Every Stitch</span>
+            </h1>
+            <a href="#collection" class="inline-block border border-white/20 bg-white/5 backdrop-blur-sm text-white text-[9px] sm:text-[10px] uppercase tracking-[0.3em] font-medium px-8 sm:px-12 py-3.5 sm:py-4 hover:bg-gold hover:border-gold hover:text-black transition-all duration-300" data-i18n="hero_btn">
+                Discover The Pieces
+            </a>
+        </div>
+    </section>
+
+    <main id="collection" class="flex-grow pt-24 pb-32 max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-12 w-full">
+        <div class="flex flex-col items-center mb-12 sm:mb-20">
+            <h2 class="text-2xl md:text-3xl font-serif text-white tracking-widest uppercase mb-8 sm:mb-12 text-center" data-i18n="departments">Curated Departments</h2>
+            
+            <div class="w-full overflow-hidden relative">
+                <div id="category-bar" class="flex items-center space-x-8 rtl:space-x-reverse sm:space-x-12 overflow-x-auto hide-scroll pb-4 w-full justify-start sm:justify-center px-4 sm:px-0">
+                    <button onclick="setCategory('All')" class="category-tab active pb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-500 hover:text-white" data-cat="All" data-i18n="cat_all">All Pieces</button>
+                    <button onclick="setCategory('Top')" class="category-tab pb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-500 hover:text-white" data-cat="Top" data-i18n="cat_top">Top</button>
+                    <button onclick="setCategory('Outfit')" class="category-tab pb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-500 hover:text-white" data-cat="Outfit" data-i18n="cat_outfit">Outfit</button>
+                    <button onclick="setCategory('Boots')" class="category-tab pb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-500 hover:text-white" data-cat="Boots" data-i18n="cat_boots">Boots</button>
+                    <button onclick="setCategory('More')" class="category-tab pb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-500 hover:text-white" data-cat="More" data-i18n="cat_more">More</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading-spinner" class="flex flex-col items-center justify-center py-20">
+            <div class="w-10 h-10 border-2 border-dark-border border-t-gold rounded-full animate-spin mb-4"></div>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-widest">Loading Live Inventory...</p>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-10 sm:gap-y-16">
+            <!-- Dynamically populated -->
+        </div>
+
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+            <i class="ph ph-sparkle text-3xl sm:text-4xl text-zinc-700 mb-4 sm:mb-6"></i>
+            <h3 class="text-xl sm:text-2xl font-serif text-zinc-400 mb-2 sm:mb-3 italic" data-i18n="empty_title">The showroom is empty.</h3>
+            <p class="text-zinc-600 text-[10px] sm:text-xs tracking-widest uppercase" data-i18n="empty_sub">Please select another category.</p>
+        </div>
+    </main>
+
+    <!-- Slide-Over Shopping Bag & Checkout Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-500">
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-500"></div>
+        
+        <div id="cart-panel" class="absolute right-0 rtl:right-auto rtl:left-0 top-0 bottom-0 w-[90vw] sm:w-[450px] glass-panel border-l rtl:border-l-0 rtl:border-r border-white/10 p-6 sm:p-8 flex flex-col transform translate-x-full rtl:-translate-x-full transition-transform duration-500 pointer-events-auto">
+            
+            <div class="flex justify-between items-center pb-6 sm:pb-8 border-b border-white/10">
+                <h3 id="drawer-title" class="font-serif text-xl sm:text-2xl text-white tracking-wide" data-i18n="cart_title">Shopping Bag</h3>
+                <button onclick="toggleCart()" class="text-zinc-400 hover:text-white text-2xl transition-transform hover:rotate-90"><i class="ph ph-x"></i></button>
+            </div>
+
+            <!-- VIEW 1: Cart Items -->
+            <div id="cart-view" class="flex flex-col flex-grow overflow-hidden">
+                <div id="cart-items" class="flex-grow overflow-y-auto py-6 space-y-6 hide-scroll"></div>
+                <div id="cart-footer" class="pt-6 sm:pt-8 border-t border-white/10">
+                    <div class="flex justify-between items-end mb-6 sm:mb-8">
+                        <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-400" data-i18n="cart_total">Estimated Total</span>
+                        <div id="cart-total" class="text-right"></div>
+                    </div>
+                    <button onclick="showCheckoutForm()" id="checkout-btn" class="w-full bg-gold text-black py-4 uppercase text-[10px] tracking-[0.3em] font-semibold hover:bg-white transition-colors" data-i18n="cart_btn">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 2: Checkout Form -->
+            <div id="checkout-view" class="hidden flex-col flex-grow overflow-hidden pt-6">
+                <form id="order-form" onsubmit="submitOrder(event)" class="flex flex-col h-full">
+                    <div class="flex-grow space-y-5 overflow-y-auto hide-scroll pb-6">
+                        <div>
+                            <label class="block text-[9px] uppercase tracking-widest text-zinc-400 mb-2" data-i18n="form_name">Full Name</label>
+                            <input type="text" id="cust-name" required class="w-full bg-black/50 border border-white/10 rounded px-4 py-3.5 text-sm text-white focus:outline-none focus:border-gold transition-colors" placeholder="...">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] uppercase tracking-widest text-zinc-400 mb-2" data-i18n="form_phone">Phone Number</label>
+                            <input type="tel" id="cust-phone" required class="w-full bg-black/50 border border-white/10 rounded px-4 py-3.5 text-sm text-white focus:outline-none focus:border-gold transition-colors" dir="ltr" placeholder="+964 ...">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] uppercase tracking-widest text-zinc-400 mb-2" data-i18n="form_address">Delivery Address</label>
+                            <textarea id="cust-address" required rows="3" class="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-gold transition-colors resize-none" placeholder="..."></textarea>
+                        </div>
+                    </div>
+                    <div class="pt-6 border-t border-white/10 mt-auto">
+                        <button type="button" onclick="showCartView()" class="w-full bg-transparent border border-white/20 text-zinc-300 py-3 uppercase text-[10px] tracking-[0.2em] font-medium hover:bg-white/5 transition-colors mb-3" data-i18n="form_back">
+                            Back to Bag
+                        </button>
+                        <button type="submit" id="submit-order-btn" class="w-full bg-gold text-black py-4 uppercase text-[10px] tracking-[0.3em] font-semibold hover:bg-white transition-colors" data-i18n="form_submit">
+                            Confirm Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- VIEW 3: Success Message -->
+            <div id="success-view" class="hidden flex-col items-center justify-center flex-grow text-center pb-10">
+                <i class="ph ph-check-circle text-6xl text-gold mb-6"></i>
+                <h3 class="font-serif text-2xl text-white mb-2" data-i18n="success_title">Order Received</h3>
+                <p class="text-sm text-zinc-400" data-i18n="success_sub">Our team will contact you shortly to confirm delivery.</p>
+                <button onclick="toggleCart()" class="mt-8 border border-white/20 text-white px-8 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-white/10 transition-colors" data-i18n="success_btn">Continue Shopping</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <section id="about" class="bg-dark-surface py-20 sm:py-32 border-t border-dark-border">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <span class="text-gold text-[9px] sm:text-[10px] uppercase tracking-[0.4em] block mb-4 sm:mb-6" data-i18n="about_sub">Maison Laura</span>
+            <h2 class="text-2xl sm:text-4xl md:text-5xl font-serif text-white mb-6 sm:mb-10 leading-relaxed font-light" data-i18n="about_title">
+                Crafted for those who understand that simplicity is the ultimate expression of luxury.
+            </h2>
+            <p class="text-zinc-400 text-xs sm:text-sm md:text-base leading-loose max-w-2xl mx-auto font-light" data-i18n="about_desc">
+                Each silhouette in our collection is created with uncompromised attention to material and drape. Sourced from boutique European mills, our pieces bridge classic artisanal savoir-faire with contemporary modern architecture.
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-black py-12 sm:py-20 border-t border-dark-border text-center">
+        <div class="flex justify-center mb-6 sm:mb-8">
+            <img src="517143646_17842456443536105_8217253692259783694_n.jpg" alt="Laura Boutique" class="h-16 sm:h-24 w-auto object-contain rounded-md opacity-80">
+        </div>
+        <p class="text-zinc-600 text-[8px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-6 sm:mb-8"><span data-i18n="footer_rights">&copy; 2026 Laura Boutique. All Rights Reserved.</span></p>
+        <div class="flex justify-center space-x-6 sm:space-x-10 rtl:space-x-reverse text-[9px] sm:text-[10px] uppercase tracking-widest text-zinc-500">
+            <a href="https://www.instagram.com/llaura.boutique/" target="_blank" class="hover:text-gold transition-colors flex items-center">
+                <i class="ph ph-instagram-logo mx-1.5 text-base sm:text-lg"></i> Instagram
+            </a>
+            <a href="#collection" class="hover:text-gold transition-colors" data-i18n="footer_top">Top of Page</a>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 🚨 1. PASTE YOUR JSONBIN KEYS HERE 🚨
+        // ==========================================
+        const JSONBIN_API_KEY = "$2a$10$kAoK7IsK5H4Xi6YImh.gjeKMg3DY94qszoXDlbE5chp2oGPC2.FB2";
+        const JSONBIN_BIN_ID = "6ac387a0ffd5d160534ed968";
+        const BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+        // ==========================================
+
+        const translations = {
+            en: {
+                promo: "Complimentary Worldwide Shipping on All Orders Over $500",
+                nav_catalog: "Catalog", nav_maison: "Maison",
+                hero_sub: "Fall / Winter Collection", hero_main_1: "Refinement in", hero_main_2: "Every Stitch", hero_btn: "Discover The Pieces",
+                departments: "Curated Departments", cat_all: "All Pieces", cat_top: "Top", cat_outfit: "Outfit", cat_boots: "Boots", cat_more: "More",
+                empty_title: "The showroom is empty.", empty_sub: "Please select another category.",
+                cart_title: "Shopping Bag", cart_total: "Estimated Total", cart_btn: "Proceed to Checkout", cart_empty: "Your bag is empty",
+                checkout_title: "Checkout", form_name: "Full Name", form_phone: "Phone Number", form_address: "Delivery Address", form_back: "Back to Bag", form_submit: "Confirm Order",
+                success_title: "Order Received", success_sub: "Our team will contact you shortly to confirm delivery.", success_btn: "Continue Shopping", add_to_bag: "Add to Bag",
+                about_sub: "Maison Laura", about_title: "Crafted for those who understand that simplicity is the ultimate expression of luxury.", about_desc: "Each silhouette in our collection is created with uncompromised attention to material and drape. Sourced from boutique European mills, our pieces bridge classic artisanal savoir-faire with contemporary modern architecture.",
+                footer_rights: "© 2026 Laura Boutique. All Rights Reserved.", footer_top: "Top of Page"
+            },
+            ar: {
+                promo: "شحن مجاني لجميع أنحاء العالم للطلبات التي تزيد عن 500 دولار",
+                nav_catalog: "الكتالوج", nav_maison: "دار الأزياء",
+                hero_sub: "مجموعة الخريف والشتاء", hero_main_1: "أناقة في", hero_main_2: "كل غرزة", hero_btn: "اكتشف القطع",
+                departments: "الأقسام المختارة", cat_all: "كل القطع", cat_top: "علوي", cat_outfit: "أطقم", cat_boots: "أحذية", cat_more: "المزيد",
+                empty_title: "صالة العرض فارغة.", empty_sub: "يرجى تحديد فئة أخرى.",
+                cart_title: "حقيبة التسوق", cart_total: "المجموع التقديري", cart_btn: "إتمام الطلب", cart_empty: "حقيبتك فارغة",
+                checkout_title: "تفاصيل الطلب", form_name: "الاسم الكامل", form_phone: "رقم الهاتف", form_address: "عنوان التوصيل", form_back: "العودة للحقيبة", form_submit: "تأكيد الطلب",
+                success_title: "تم استلام الطلب", success_sub: "سيتواصل معك فريقنا قريباً لتأكيد التوصيل.", success_btn: "متابعة التسوق", add_to_bag: "أضف للحقيبة",
+                about_sub: "دار لورا", about_title: "صُنعت لأولئك الذين يدركون أن البساطة هي التعبير الأسمى عن الفخامة.", about_desc: "يتم إنشاء كل تصميم في مجموعتنا باهتمام لا هوادة فيه بالخامات والانسيابية. ندمج بين الحرفية الكلاسيكية والهندسة المعمارية الحديثة المعاصرة.",
+                footer_rights: "© 2026 بوتيك لورا. جميع الحقوق محفوظة.", footer_top: "أعلى الصفحة"
+            },
+            ku: {
+                promo: "گەیاندنی بێبەرامبەر بۆ هەموو جیهان بۆ داواکارییەکانی سەروو 500 دۆلار",
+                nav_catalog: "کەتەلۆگ", nav_maison: "ماڵ",
+                hero_sub: "کۆکراوەی پایز / زستان", hero_main_1: "نەفاهەت لە", hero_main_2: "هەر دروومانێکدا", hero_btn: "پارچەکان بدۆزەوە",
+                departments: "بەشە هەڵبژێردراوەکان", cat_all: "هەموو پارچەکان", cat_top: "سەرەوە", cat_outfit: "جلوبەرگ", cat_boots: "پێڵاو", cat_more: "زیاتر",
+                empty_title: "پێشانگاکە بەتاڵە.", empty_sub: "تکایە بەشێکی تر هەڵبژێرە.",
+                cart_title: "جانتاکەت", cart_total: "کۆی گشتی", cart_btn: "بەردەوام بە بۆ پارەدان", cart_empty: "جانتاکەت بەتاڵە",
+                checkout_title: "زانیاری داواکاری", form_name: "ناوی تەواو", form_phone: "ژمارەی مۆبایل", form_address: "ناونیشانی گەیاندن", form_back: "گەڕانەوە بۆ جانتا", form_submit: "پشتڕاستکردنەوەی داواکاری",
+                success_title: "داواکارییەکەت وەرگیرا", success_sub: "تیمەکەمان بە زوویی پەیوەندیت پێوە دەکات بۆ پشتڕاستکردنەوە.", success_btn: "بەردەوام بە لە بازاڕکردن", add_to_bag: "زیادکردن",
+                about_sub: "ماڵی لۆرا", about_title: "دروستکراوە بۆ ئەوانەی تێدەگەن کە سادەیی بەرزترین دەربڕینی فەخامەتە.", about_desc: "هەر دیزاینێک لە کۆکراوەکەماندا بە گرنگیدانێکی زۆرەوە بۆ کەرەستە و شێوە دروستکراوە. پارچەکانمان پردێکن لە نێوان کاری دەستی کلاسیک و تەلارسازی مۆدێرنی هاوچەرخ.",
+                footer_rights: "© 2026 لۆرا بووتیک. هەموو مافەکان پارێزراون.", footer_top: "سەرەوەی پەڕە"
+            }
+        };
+
+        let currentLang = localStorage.getItem('laura_lang') || 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('laura_lang', lang);
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'ar' || lang === 'ku') ? 'rtl' : 'ltr';
+            document.getElementById('current-lang-display').innerText = lang.toUpperCase();
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.innerHTML = translations[lang][key];
+            });
+            renderStore(); updateCartUI();
+        }
+        
+        let appInventory = [];
+        let currentCategory = 'All';
+        let cart = [];
+
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('-translate-y-full'); }
+        
+        function formatPrice(amount, currency) {
+            const num = Number(amount);
+            if (currency === 'IQD') {
+                const sym = (currentLang === 'ar' || currentLang === 'ku') ? 'د.ع' : 'IQD';
+                return new Intl.NumberFormat('en-US').format(num) + ' ' + sym;
+            }
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+        }
+
+        function getCategoryName(cat) { const map = { 'Top': 'cat_top', 'Outfit': 'cat_outfit', 'Boots': 'cat_boots', 'More': 'cat_more' }; return map[cat] ? translations[currentLang][map[cat]] : cat; }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-tab').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) { btn.classList.add('active'); btn.classList.remove('text-zinc-500'); } 
+                else { btn.classList.remove('active'); btn.classList.add('text-zinc-500'); }
+            });
+            renderStore();
+        }
+
+        function renderStore() {
+            const grid = document.getElementById('product-grid');
+            const empty = document.getElementById('empty-state');
+            const filtered = currentCategory === 'All' ? appInventory : appInventory.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
+
+            if (filtered.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); empty.classList.add('flex'); return; }
+            empty.classList.add('hidden'); empty.classList.remove('flex');
+
+            grid.innerHTML = filtered.map((p, index) => `
+                <div class="group relative flex flex-col opacity-0 animate-fade-in-up" style="animation-delay: ${index * 0.05}s;">
+                    <div class="aspect-[3/4] sm:aspect-[3/4] w-full overflow-hidden bg-dark-surface relative mb-3 sm:mb-6 rounded sm:rounded-none">
+                        <img src="${p.imageUrl}" class="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105">
+                        <div class="absolute top-2 left-2 sm:top-4 sm:left-4 rtl:left-auto rtl:right-2 sm:rtl:right-4 bg-black/60 backdrop-blur-md px-2 py-1 sm:px-3 sm:py-1.5 text-[7px] sm:text-[8px] uppercase tracking-[0.2em] sm:tracking-[0.3em] text-zinc-200">${getCategoryName(p.category)}</div>
+                        <div class="absolute inset-x-0 bottom-0 p-2 sm:p-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex justify-center">
+                            <button onclick="addToCart('${p.id}')" class="w-full bg-white/95 backdrop-blur text-black py-2.5 sm:py-3.5 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-medium hover:bg-gold transition-colors">${translations[currentLang].add_to_bag}</button>
+                        </div>
+                    </div>
+                    <div class="text-center px-1 sm:px-4">
+                        <h3 class="text-[11px] sm:text-[13px] font-sans tracking-wider sm:tracking-widest text-zinc-300 group-hover:text-gold transition-colors mb-1 sm:mb-2 line-clamp-1" dir="ltr">${p.title}</h3>
+                        <p class="font-serif text-sm sm:text-lg text-white font-normal italic" dir="ltr">${formatPrice(p.price, p.currency || 'USD')}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- JSONBIN LOAD INVENTORY ---
+        async function loadCloudData() {
+            if (JSONBIN_API_KEY === "PASTE_YOUR_MASTER_KEY_HERE") return;
+            try {
+                const response = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_API_KEY } });
+                const data = await response.json();
+                if(data.record && data.record.inventory) {
+                    appInventory = data.record.inventory;
+                    document.getElementById('loading-spinner').classList.add('hidden');
+                    renderStore();
+                }
+            } catch(err) {
+                console.error("Failed to load store data", err);
+            }
+        }
+
+        function addToCart(id) { const product = appInventory.find(p => p.id === id); if (!product) return; cart.push(product); updateCartUI(); toggleCart(true); }
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+
+        function updateCartUI() {
+            document.getElementById('cart-badge').innerText = cart.length;
+            const container = document.getElementById('cart-items');
+            const btn = document.getElementById('checkout-btn');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center text-zinc-500 py-16 text-[10px] sm:text-xs uppercase tracking-widest">${translations[currentLang].cart_empty}</div>`;
+                document.getElementById('cart-total').innerHTML = formatPrice(0, 'USD');
+                btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+            btn.disabled = false; btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            let totalUSD = 0; let totalIQD = 0;
+            
+            container.innerHTML = cart.map((item, idx) => {
+                const cur = item.currency || 'USD';
+                if(cur === 'IQD') totalIQD += Number(item.price); else totalUSD += Number(item.price);
+                
+                return `
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse border-b border-white/5 pb-4 sm:pb-6">
+                        <img src="${item.imageUrl}" class="w-16 sm:w-20 h-20 sm:h-24 object-cover bg-dark-surface rounded-sm">
+                        <div class="flex-grow text-left rtl:text-right">
+                            <h4 class="text-[10px] sm:text-xs text-white uppercase tracking-widest mb-1 line-clamp-2" dir="ltr">${item.title}</h4>
+                            <p class="text-xs sm:text-sm text-gold font-serif italic" dir="ltr">${formatPrice(item.price, cur)}</p>
+                        </div>
+                        <button onclick="removeFromCart(${idx})" class="text-zinc-600 hover:text-red-400 p-2 transition-colors"><i class="ph ph-trash text-lg sm:text-xl"></i></button>
+                    </div>
+                `;
+            }).join('');
+            
+            let totalHtml = [];
+            if(totalUSD > 0) totalHtml.push(`<span class="font-serif text-2xl sm:text-3xl text-gold leading-none" dir="ltr">${formatPrice(totalUSD, 'USD')}</span>`);
+            if(totalIQD > 0) totalHtml.push(`<span class="font-serif text-xl sm:text-2xl text-gold leading-none" dir="ltr">${formatPrice(totalIQD, 'IQD')}</span>`);
+            
+            if(totalHtml.length === 1) {
+                document.getElementById('cart-total').innerHTML = totalHtml[0];
+            } else {
+                document.getElementById('cart-total').innerHTML = `<div class="flex flex-col items-end space-y-1">${totalHtml[0]} <span class="text-sm text-zinc-500">+ ${totalHtml[1]}</span></div>`;
+            }
+        }
+
+        function showCheckoutForm() {
+            document.getElementById('drawer-title').innerText = translations[currentLang].checkout_title;
+            document.getElementById('cart-view').classList.add('hidden'); document.getElementById('checkout-view').classList.remove('hidden'); document.getElementById('success-view').classList.add('hidden');
+        }
+
+        function showCartView() {
+            document.getElementById('drawer-title').innerText = translations[currentLang].cart_title;
+            document.getElementById('cart-view').classList.remove('hidden'); document.getElementById('checkout-view').classList.add('hidden'); document.getElementById('success-view').classList.add('hidden');
+        }
+
+        // --- JSONBIN SAVE ORDER ---
+        window.submitOrder = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-order-btn');
+            btn.disabled = true; btn.innerText = "Processing...";
+
+            const WA_NUMBER = "9647708726888"; 
+            
+            let totalUSD = 0, totalIQD = 0;
+            cart.forEach(item => {
+                if((item.currency || 'USD') === 'IQD') totalIQD += Number(item.price);
+                else totalUSD += Number(item.price);
+            });
+            
+            const custName = document.getElementById('cust-name').value;
+            const custPhone = document.getElementById('cust-phone').value;
+            const custAddress = document.getElementById('cust-address').value;
+
+            const newOrder = {
+                id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+                date: new Date().toLocaleString('en-US'), timestamp: Date.now(), status: 'pending',
+                customer: { name: custName, phone: custPhone, address: custAddress },
+                items: cart, totalUSD: totalUSD, totalIQD: totalIQD
+            };
+
+            try {
+                // 1. Fetch latest data so we don't accidentally overwrite the admin's changes
+                const response = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_API_KEY } });
+                const data = await response.json();
+                
+                let cloudInventory = data.record.inventory || [];
+                let cloudOrders = data.record.orders || [];
+                let cloudArchive = data.record.archive || [];
+
+                // 2. Add the new order
+                cloudOrders.unshift(newOrder);
+
+                // 3. Save it all back to JSONBin
+                await fetch(BIN_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+                    body: JSON.stringify({ inventory: cloudInventory, orders: cloudOrders, archive: cloudArchive })
+                });
+                
+                // 4. Send WhatsApp msg
+                let waMessage = `*New Order from Laura Boutique* 🛍️\n\n`;
+                waMessage += `*Name:* ${custName}\n*Phone:* ${custPhone}\n*Address:* ${custAddress}\n\n*Items:*\n`;
+                cart.forEach(i => { waMessage += `- ${i.title} (${formatPrice(i.price, i.currency || 'USD')})\n`; });
+                waMessage += `\n*Total:* ${totalUSD > 0 ? formatPrice(totalUSD, 'USD') : ''} ${totalIQD > 0 ? '+ ' + formatPrice(totalIQD, 'IQD') : ''}`;
+                
+                window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage)}`, '_blank');
+                
+                cart = []; updateCartUI(); document.getElementById('order-form').reset();
+                document.getElementById('drawer-title').innerText = "";
+                document.getElementById('checkout-view').classList.add('hidden');
+                document.getElementById('success-view').classList.remove('hidden'); document.getElementById('success-view').classList.add('flex');
+            } catch (err) {
+                alert("Connection error. Please try again.");
+            } finally {
+                btn.disabled = false; btn.innerText = translations[currentLang].form_submit;
+            }
+        }
+
+        function toggleCart(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            const isOpen = !drawer.classList.contains('pointer-events-none');
+            
+            if (!isOpen || forceOpen) {
+                showCartView(); drawer.classList.remove('pointer-events-none'); panel.classList.remove('translate-x-full', '-translate-x-full'); backdrop.classList.remove('opacity-0');
+            } else {
+                panel.classList.add(document.documentElement.dir === 'rtl' ? '-translate-x-full' : 'translate-x-full'); backdrop.classList.add('opacity-0');
+                setTimeout(() => { drawer.classList.add('pointer-events-none'); document.getElementById('success-view').classList.remove('flex'); }, 500);
+            }
+        }
+
+        setLang(currentLang);
+        setInterval(loadCloudData, 15000); // Check for inventory updates
+        loadCloudData();
+    </script>
+</body>
+</html>
